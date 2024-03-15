@@ -77,6 +77,33 @@ public class ArbreBinaire {
             afficherArbre(arbre.getDroite());
         }
     }
+
+    // Méthode estVide pour vérifier si l'arbre est vide
+    public boolean estVide() {
+        return this == getArbreVide();
+    }
+
+    // Méthode taille pour retourner le nombre de nœuds dans l'arbre
+    public int taille() {
+        if (estVide()) {
+            return 0;
+        } else {
+            return 1 + gauche.taille() + droite.taille();
+        }
+    }
+
+    // Méthode de recherche pour rechercher une valeur donnée dans l'arbre
+    public boolean rechercher(Integer valeur) {
+        if (estVide()) {
+            return false;
+        } else if (valeur.equals(this.clef)) {
+            return true;
+        } else if (valeur < this.clef) {
+            return gauche.rechercher(valeur);
+        } else {
+            return droite.rechercher(valeur);
+        }
+    }
 }
 
 public class Main {
@@ -108,6 +135,13 @@ public class Main {
         System.out.println("Arbre avec une seule racine : " + arbreRacine.getClef());
         System.out.println("Arbre complexe :");
         afficherArbre(arbreComplexe);
+
+        // Test des méthodes estVide, taille et rechercher
+        System.out.println("\n\nTests des méthodes :");
+        System.out.println("L'arbre est vide : " + arbre.estVide());
+        System.out.println("Taille de l'arbre complexe : " + arbreComplexe.taille());
+        System.out.println("Recherche de la valeur 6 dans l'arbre complexe : " + arbreComplexe.rechercher(6));
+        System.out.println("Recherche de la valeur 10 dans l'arbre complexe : " + arbreComplexe.rechercher(10));
     }
 
     // Méthode récursive pour afficher un arbre binaire (parcours infixé)
