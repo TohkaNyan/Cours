@@ -1,20 +1,17 @@
 public class ArbreBinaire {
 
-    // Attributs de la classe
-    private Integer clef;  // La valeur stockée dans le nœud
-    private ArbreBinaire gauche;  // Le sous-arbre gauche
-    private ArbreBinaire droite;  // Le sous-arbre droit
+    private Integer clef;
+    private ArbreBinaire gauche;
+    private ArbreBinaire droite;
 
     // Constructeurs
     public ArbreBinaire() {
-        // Crée un arbre vide
         this.clef = null;
         this.gauche = null;
         this.droite = null;
     }
 
     public ArbreBinaire(Integer clef, ArbreBinaire gauche, ArbreBinaire droite) {
-        // Crée un nœud avec la valeur, le sous-arbre gauche et le sous-arbre droit donnés
         this.clef = clef;
         this.gauche = gauche;
         this.droite = droite;
@@ -24,7 +21,7 @@ public class ArbreBinaire {
     private static ArbreBinaire arbreVide = new ArbreBinaire();
 
     public static ArbreBinaire getArbreVide() {
-        return arbreVide;  // Retourne l'instance de l'arbre vide
+        return arbreVide;
     }
 
     // Getters et setters
@@ -54,22 +51,18 @@ public class ArbreBinaire {
 
     // Méthode creer pour retourner l'arbre vide
     public static ArbreBinaire creer() {
-        return getArbreVide();  // Retourne l'arbre vide
+        return getArbreVide();
     }
 
     // Méthode récursive pour insérer une valeur dans l'arbre
     public static ArbreBinaire insererValeur(ArbreBinaire arbre, Integer valeur) {
-        // Si l'arbre est vide, créer un nouveau nœud avec la valeur donnée
         if (arbre == getArbreVide()) {
             return new ArbreBinaire(valeur, getArbreVide(), getArbreVide());
         }
 
-        // Si la valeur est inférieure à la clé de l'arbre, insérer à gauche
         if (valeur < arbre.getClef()) {
             arbre.setGauche(insererValeur(arbre.getGauche(), valeur));
-        }
-        // Sinon, insérer à droite
-        else if (valeur > arbre.getClef()) {
+        } else if (valeur > arbre.getClef()) {
             arbre.setDroite(insererValeur(arbre.getDroite(), valeur));
         }
 
@@ -93,18 +86,36 @@ public class Main {
         ArbreBinaire arbre = ArbreBinaire.creer();
         System.out.println("Arbre vide créé.");
 
-        // Insertion de quelques valeurs dans l'arbre
-        arbre = ArbreBinaire.insererValeur(arbre, 5);
-        arbre = ArbreBinaire.insererValeur(arbre, 3);
-        arbre = ArbreBinaire.insererValeur(arbre, 7);
-        arbre = ArbreBinaire.insererValeur(arbre, 1);
-        arbre = ArbreBinaire.insererValeur(arbre, 4);
-        arbre = ArbreBinaire.insererValeur(arbre, 6);
-        arbre = ArbreBinaire.insererValeur(arbre, 9);
-        System.out.println("Valeurs insérées dans l'arbre.");
+        // Création d'un arbre binaire avec une seule racine
+        ArbreBinaire arbreRacine = new ArbreBinaire(10, ArbreBinaire.getArbreVide(), ArbreBinaire.getArbreVide());
+        System.out.println("Arbre avec une seule racine (valeur 10) créé.");
 
-        // Affichage de l'arbre après l'insertion des valeurs
-        System.out.println("\nAffichage de l'arbre après l'insertion des valeurs :");
-        ArbreBinaire.afficherArbre(arbre);
+        // Création d'un arbre binaire plus complexe
+        ArbreBinaire arbreComplexe = new ArbreBinaire(
+                5,
+                new ArbreBinaire(3, ArbreBinaire.getArbreVide(), ArbreBinaire.getArbreVide()),
+                new ArbreBinaire(
+                        8,
+                        new ArbreBinaire(6, ArbreBinaire.getArbreVide(), ArbreBinaire.getArbreVide()),
+                        new ArbreBinaire(9, ArbreBinaire.getArbreVide(), ArbreBinaire.getArbreVide())
+                )
+        );
+        System.out.println("Arbre binaire complexe créé.");
+
+        // Affichage des arbres créés
+        System.out.println("\nAffichage des arbres créés :");
+        System.out.println("Arbre vide : " + arbre.getClef());
+        System.out.println("Arbre avec une seule racine : " + arbreRacine.getClef());
+        System.out.println("Arbre complexe :");
+        afficherArbre(arbreComplexe);
+    }
+
+    // Méthode récursive pour afficher un arbre binaire (parcours infixé)
+    public static void afficherArbre(ArbreBinaire arbre) {
+        if (arbre != ArbreBinaire.getArbreVide()) {
+            afficherArbre(arbre.getGauche());
+            System.out.print(arbre.getClef() + " ");
+            afficherArbre(arbre.getDroite());
+        }
     }
 }
